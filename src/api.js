@@ -1,31 +1,14 @@
 import axios from "axios";
 
+//개발용
+//배포용
+const baseUrl = import.meta.env.DEV 
+  ? "http://localhost:8080"
+  : "http://javis-LB-205407576.us-east-1.elb.amazonaws.com";
 export const client = axios.create({
-  baseURL: import.meta.env.VITE_BASEURL,
-  withCredentials: false,
+  baseURL: "https://javis.shop",
+  withCredentials: true,
   headers: {
-    "ngrok-skip-browser-warning": true,
+    "Content-Type": "application/json",
   },
 });
-export const client2 = axios.create({
-  baseURL: null,
-  withCredentials: false,
-  headers: {
-    "ngrok-skip-browser-warning": true,
-  },
-});
-
-// fetchData 함수 수정
-const fetchData = async (url, method = "GET") => {
-  try {
-    const response = await client({ url, method });
-    console.log(response);
-    return response;
-  } catch (error) {
-    console.log("Network Error");
-    console.error(error);
-    throw error;
-  }
-};
-
-export default fetchData;
