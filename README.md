@@ -12,7 +12,9 @@ Javis는 자소서 비서 서비스의 줄임말로, 취업 준비자들을 위�
 - Recoil
 - Material-UI (Mui)
 - Styled-Component
-
+- dynamodb
+- jenkins
+- Oracle Cloud Instance
 ## 상태
 
 개발 중
