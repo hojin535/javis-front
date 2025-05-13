@@ -1,15 +1,15 @@
 import { RecoilRoot } from "recoil";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Header from "./Component/Header/Header.jsx";
-import LoginPage from "./Component/Login/LoginPage";
-import SignUp from "./Component/Login/SignUp";
+import Header from "./components/Header/Header.jsx";
+import LoginPage from "./components/Login/LoginPage";
+import SignUp from "./components/Login/SignUp";
 
 import "./index.css";
-import { InfoPage } from "./Component/Info/InfoPage.jsx";
-import { RecruitsPage } from "./Component/Recruits/RecruitsPage.jsx";
-import { MyStatementPage } from "./Component/Statement/StatementPage.jsx";
-import { EditorPage } from "./Component/Editor/EditorPage.jsx";
-import { RecruitItemPage } from "./Component/Recruits/RecruitItemPage/RecruitItemPage.jsx";
+import { InfoPage } from "./components/Info/InfoPage.jsx";
+import { RecruitsPage } from "./components/Recruits/RecruitsPage.jsx";
+import { MyStatementPage } from "./components/Statement/StatementPage.jsx";
+import { EditorPage } from "./components/Editor/EditorPage.jsx";
+import { RecruitItemPage } from "./components/Recruits/RecruitItemPage/RecruitItemPage.jsx";
 
 const user = localStorage.getItem("user");
 
