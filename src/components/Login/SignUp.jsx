@@ -37,8 +37,17 @@ export default function SignUp() {
   return (
     <>
       <Button
-        variant="contained"
-        sx={{ marginTop: "10px", marginLeft: "10px" }}
+        variant="outlined"
+        sx={{
+          position: "relative",
+          right: 0,
+          mt:2,ml:2,
+          color: "white", // 텍스트 색상
+          background: "black",
+          "&:hover": {
+            backgroundColor: "gray", // 호버 시 연한 회색 배경
+          },
+        }}
         onClick={() => navi(-1)}
       >
         뒤로가기
@@ -106,8 +115,17 @@ export default function SignUp() {
             <Button
               type="submit"
               fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              variant="outlined"
+              sx={{
+                position: "relative",
+                right: 0,
+                mt:2,mb:3,
+                color: "white", // 텍스트 색상
+                background: "black",
+                "&:hover": {
+                  backgroundColor: "gray", // 호버 시 연한 회색 배경
+                },
+              }}
             >
               회원가입
             </Button>

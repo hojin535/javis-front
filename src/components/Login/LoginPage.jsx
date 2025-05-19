@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import Logo from "/src/assets/LOGO.png";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { loginAtom } from "../../Recoil";
@@ -79,13 +79,23 @@ export default function LoginPage() {
           <Button
             type="submit"
             fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            variant="outlined"
+            sx={{
+              position: "relative",
+              right: 0,
+              mt:2,mb:3,
+              color: "white", // 텍스트 색상
+              background: "black",
+              "&:hover": {
+                backgroundColor: "gray", // 호버 시 연한 회색 배경
+              },
+            }}
             onClick={handleSubmit}
             disabled={loading}
           >
             {loading ? "로그인 중..." : "로그인"}
           </Button>
+
           <Link
             component={RouterLink}
             to="/signUp"
