@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { Grid, TextField, Typography, IconButton, Button } from "@mui/material";
-import { InfoTitle } from "./InfoTitle.jsx";
-import { DatePickerInput } from "../common/InputComponent.jsx";
-import { Delete, Add } from "@mui/icons-material";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import {useEffect, useState} from "react";
+import {Button, Grid, IconButton, TextField, Typography} from "@mui/material";
+import {InfoTitle} from "./InfoTitle.jsx";
+import {DatePickerInput} from "../common/InputComponent.jsx";
+import {Add, Delete} from "@mui/icons-material";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import styled from "styled-components";
-import { useAlert } from "./InfoPage";
-import { useFetchData } from "../../hooks/useFetchData.jsx";
+import {useAlert} from "./InfoPage";
+import {useFetchData} from "../../hooks/useFetchData.jsx";
 
 const CustomButton = styled(Button)`
-  background-color: black;
-  color: white;
-  margin-top: 30px;
-  margin-bottom: -10px;
-  &:hover {
-    background: gray;
-    color: black;
-  }
+    background-color: black;
+    color: white;
+    margin-top: 30px;
+    margin-bottom: -10px;
+
+    &:hover {
+        background: gray;
+        color: black;
+    }
 `;
 
-const ClubForm = ({ formData, onUpdate, onDelete, isFirst, state }) => {
+const ClubForm = ({formData, onUpdate, onDelete, isFirst, state}) => {
   return (
     <Grid
       container
       spacing={2}
       alignItems="center"
-      sx={{ position: "relative", mt: isFirst ? 0 : 2 }}
+      sx={{position: "relative", mt: isFirst ? 0 : 2}}
     >
       {!isFirst && !state && (
         <IconButton
@@ -39,7 +40,7 @@ const ClubForm = ({ formData, onUpdate, onDelete, isFirst, state }) => {
             zIndex: 1,
           }}
         >
-          <Delete />
+          <Delete/>
         </IconButton>
       )}
 
@@ -58,7 +59,7 @@ const ClubForm = ({ formData, onUpdate, onDelete, isFirst, state }) => {
         />
       </Grid>
 
-      <Grid item xs={12} sm={1} />
+      <Grid item xs={12} sm={1}/>
 
       {/* 역할 */}
       <Grid item xs={12} sm={2}>
@@ -123,10 +124,10 @@ const ClubForm = ({ formData, onUpdate, onDelete, isFirst, state }) => {
   );
 };
 
-export const ClubInfo = ({ clubInfo }) => {
+export const ClubInfo = ({clubInfo}) => {
   const [state, setState] = useState(true);
-  const { fetchData } = useFetchData();
-  const { showAlert } = useAlert();
+  const {fetchData} = useFetchData();
+  const {showAlert} = useAlert();
   const [forms, setForms] = useState([
     {
       id: 0,
@@ -140,7 +141,7 @@ export const ClubInfo = ({ clubInfo }) => {
 
   const updateForm = (id, field, value) => {
     setForms(
-      forms.map((form) => (form.id === id ? { ...form, [field]: value } : form))
+      forms.map((form) => (form.id === id ? {...form, [field]: value} : form))
     );
   };
   useEffect(() => {
@@ -152,7 +153,6 @@ export const ClubInfo = ({ clubInfo }) => {
         startDate: item.startDate ? dayjs(item.startDate) : null,
         endDate: item.endDate ? dayjs(item.endDate) : null,
       }));
-      console.log("변환된 동아리 정보:", updatedClubInfo);
       setForms(updatedClubInfo);
     }
   }, [clubInfo]);
@@ -174,7 +174,6 @@ export const ClubInfo = ({ clubInfo }) => {
             : "",
         remarks: form.remarks,
       }));
-      console.log(clubData);
 
       try {
         await fetchData("/ClubInfo", "PUT", clubData);
@@ -215,7 +214,7 @@ export const ClubInfo = ({ clubInfo }) => {
         state={state}
         setState={changeState}
       />
-      {forms.map((form, index) => (
+      {forms.map((form) => (
         <ClubForm
           key={form.id}
           formData={form}
@@ -227,7 +226,7 @@ export const ClubInfo = ({ clubInfo }) => {
       ))}
       {!state && (
         <CustomButton fullWidth onClick={addForm}>
-          <Add sx={{ color: "green", fontWeight: "bold" }} />
+          <Add sx={{color: "green", fontWeight: "bold"}}/>
           추가하기
         </CustomButton>
       )}

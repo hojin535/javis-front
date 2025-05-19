@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { BaseComponent } from "../../common/BaseComponent.jsx";
-import { PageContent } from "../../common/PageContent.jsx";
-import { StatementFilterMenu } from "../../Statement/StatementFilterMenu.jsx";
-import { CardList } from "../../Statement/CardList.jsx";
+import {useEffect, useState} from "react";
+import {BaseComponent} from "../../common/BaseComponent.jsx";
+import {PageContent} from "../../common/PageContent.jsx";
+import {StatementFilterMenu} from "../../Statement/StatementFilterMenu.jsx";
+import {CardList} from "../../Statement/CardList.jsx";
 import StatementAddCardBody from "../../Statement/StatementAddModalComponent/StatementAddCardBody.jsx";
-import { useRecoilState } from "recoil";
-import { updateAtom } from "../../../Recoil.jsx";
-import { RecruitItemFilterMenu } from "./RecruitItemFilterMenu.jsx";
-import { useParams } from "react-router-dom";
-import { useFetchData } from "../../../hooks/useFetchData.jsx";
+import {useRecoilState} from "recoil";
+import {updateAtom} from "../../../Recoil.jsx";
+import {RecruitItemFilterMenu} from "./RecruitItemFilterMenu.jsx";
+import {useParams} from "react-router-dom";
+import {useFetchData} from "../../../hooks/useFetchData.jsx";
 
 export function RecruitItemPage() {
   const [menus, setMenus] = useState([]);
@@ -19,19 +19,17 @@ export function RecruitItemPage() {
   const handleUpdate = () => {
     setUpdate(!update);
   };
-  const { id } = useParams();
+  const {id} = useParams();
   const mode = "recruit";
   const fetchCount = async () => {
     const response = await fetchData(`/Card/recruit/count/${id}?mode=${mode}`);
     setMenus(response.data);
-    console.log("갯수", response.data);
   };
   const fetchRecruitCard = async () => {
     const response = await fetchData(
       `/Card/recruit/${id}?mode=${mode}&type=${selectMenu}`,
     );
     setCardList(response.data);
-    console.log("값", response.data);
   };
   useEffect(() => {
     fetchCount();
@@ -41,11 +39,11 @@ export function RecruitItemPage() {
 
   return (
     <BaseComponent>
-      <RecruitItemFilterMenu />
+      <RecruitItemFilterMenu/>
 
       <PageContent>
         <StatementFilterMenu
-          modalBody={<StatementAddCardBody mode={mode} />}
+          modalBody={<StatementAddCardBody mode={mode}/>}
           menus={menus}
           selectMenu={selectMenu}
           setSelectMenu={setSelectMenu}

@@ -1,23 +1,18 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import ReactQuill from "react-quill";
-import { Box } from "@mui/material";
+import {Box} from "@mui/material";
 
 import "./quillCustom.css";
-import { useParams } from "react-router-dom"; // 사용자 정의 CSS 파일 추가
 
 const QuilEditor = ({
-  save,
-  setSave,
-  setTextLength,
-  text,
-  setText,
-  quilRef,
-}) => {
+                      save,
+                      setSave,
+                      text,
+                      setText,
+                      quilRef,
+                    }) => {
   const [fontSize, setFontSize] = useState("16px"); // 기본 폰트 크기 설정
-
-  console.log("fontSize", fontSize);
-  console.log("setText", text);
-  const { id } = useParams();
+  
   // 글자 크기 변경 핸들러
   const handleFontSizeChange = (e) => {
     setFontSize(e.target.value); // 선택된 글자 크기로 상태 업데이트
@@ -35,7 +30,6 @@ const QuilEditor = ({
       if (quilRef.current) {
         const editorInstance = quilRef.current.getEditor();
         editorInstance.focus(); // 에디터에 포커스
-        console.log("Focus applied");
       }
     }, 100); // 약간의 지연을 줘서 Quill이 완전히 로드된 후 포커스 적용
   }, []);
@@ -83,9 +77,9 @@ const QuilEditor = ({
 
 QuilEditor.modules = {
   toolbar: [
-    [{ list: "ordered" }, { list: "bullet" }],
+    [{list: "ordered"}, {list: "bullet"}],
     ["bold", "italic", "underline"],
-    [{ align: [] }],
+    [{align: []}],
   ],
 };
 

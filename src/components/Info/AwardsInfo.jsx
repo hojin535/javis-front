@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { Grid, TextField, Typography, IconButton, Button } from "@mui/material";
-import { InfoTitle } from "./InfoTitle.jsx";
-import { DatePickerInput } from "../common/InputComponent.jsx";
-import { Delete, Add } from "@mui/icons-material";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import {useEffect, useState} from "react";
+import {Button, Grid, IconButton, TextField, Typography} from "@mui/material";
+import {InfoTitle} from "./InfoTitle.jsx";
+import {DatePickerInput} from "../common/InputComponent.jsx";
+import {Add, Delete} from "@mui/icons-material";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import styled from "styled-components";
-import { useAlert } from "./InfoPage";
-import { useFetchData } from "../../hooks/useFetchData.jsx";
+import {useAlert} from "./InfoPage";
+import {useFetchData} from "../../hooks/useFetchData.jsx";
 
 const CustomButton = styled(Button)`
-  background-color: black;
-  color: white;
-  margin-top: 30px;
-  margin-bottom: -10px;
-  &:hover {
-    background: gray;
-    color: black;
-  }
+    background-color: black;
+    color: white;
+    margin-top: 30px;
+    margin-bottom: -10px;
+
+    &:hover {
+        background: gray;
+        color: black;
+    }
 `;
 
-const AwardForm = ({ formData, onUpdate, onDelete, isFirst, state }) => {
+const AwardForm = ({formData, onUpdate, onDelete, isFirst, state}) => {
   return (
     <Grid
       container
       spacing={2}
       alignItems="center"
-      sx={{ position: "relative", mt: isFirst ? 0 : 2 }}
+      sx={{position: "relative", mt: isFirst ? 0 : 2}}
     >
       {!isFirst && !state && (
         <IconButton
@@ -39,7 +40,7 @@ const AwardForm = ({ formData, onUpdate, onDelete, isFirst, state }) => {
             zIndex: 1,
           }}
         >
-          <Delete />
+          <Delete/>
         </IconButton>
       )}
 
@@ -58,7 +59,7 @@ const AwardForm = ({ formData, onUpdate, onDelete, isFirst, state }) => {
         />
       </Grid>
 
-      <Grid item xs={12} sm={1} />
+      <Grid item xs={12} sm={1}/>
 
       {/* 수여 기관 */}
       <Grid item xs={12} sm={2}>
@@ -89,7 +90,7 @@ const AwardForm = ({ formData, onUpdate, onDelete, isFirst, state }) => {
         </LocalizationProvider>
       </Grid>
 
-      <Grid item xs={12} sm={1} />
+      <Grid item xs={12} sm={1}/>
 
       {/* 비고 */}
       <Grid item xs={12} sm={2}>
@@ -126,9 +127,9 @@ const AwardForm = ({ formData, onUpdate, onDelete, isFirst, state }) => {
   );
 };
 
-export const AwardsInfo = ({ awardInfo = [] }) => {
+export const AwardsInfo = ({awardInfo = []}) => {
   const [state, setState] = useState(true);
-  const { showAlert } = useAlert();
+  const {showAlert} = useAlert();
   const [forms, setForms] = useState([
     {
       id: 0,
@@ -139,9 +140,9 @@ export const AwardsInfo = ({ awardInfo = [] }) => {
       awardDetails: "",
     },
   ]);
-  const { fetchData } = useFetchData();
+  const {fetchData} = useFetchData();
   useEffect(() => {
-    if ((awardInfo, awardInfo.length > 0)) {
+    if ((awardInfo && awardInfo.length > 0)) {
       // awardInfo에 id 추가하고 날짜를 dayjs 객체로 변환
       const updatedAwardInfo = awardInfo.map((item, index) => ({
         ...item,
@@ -154,7 +155,7 @@ export const AwardsInfo = ({ awardInfo = [] }) => {
 
   const updateForm = (id, field, value) => {
     setForms(
-      forms.map((form) => (form.id === id ? { ...form, [field]: value } : form))
+      forms.map((form) => (form.id === id ? {...form, [field]: value} : form))
     );
   };
 
@@ -172,7 +173,6 @@ export const AwardsInfo = ({ awardInfo = [] }) => {
         remarks: form.remarks,
         awardDetails: form.awardDetails,
       }));
-      console.log(awardsData);
 
       try {
         await fetchData("/AwardInfo", "PUT", awardsData);
@@ -208,8 +208,8 @@ export const AwardsInfo = ({ awardInfo = [] }) => {
 
   return (
     <>
-      <InfoTitle title={"수상"} state={state} setState={changeState} />
-      {forms.map((form, index) => (
+      <InfoTitle title={"수상"} state={state} setState={changeState}/>
+      {forms.map((form) => (
         <AwardForm
           key={form.id}
           formData={form}
@@ -221,7 +221,7 @@ export const AwardsInfo = ({ awardInfo = [] }) => {
       ))}
       {!state && (
         <CustomButton fullWidth onClick={addForm}>
-          <Add sx={{ color: "green", fontWeight: "bold" }} />
+          <Add sx={{color: "green", fontWeight: "bold"}}/>
           추가하기
         </CustomButton>
       )}

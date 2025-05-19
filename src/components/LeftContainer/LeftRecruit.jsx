@@ -9,7 +9,6 @@ export const LeftRecruit = ({ handleUpdate }) => {
   const fetchRecruitData = async () => {
     try {
       const response = await fetchData("/Recruit/side");
-    console.log("dlrjdjadf", response.data);
     setData(response.data||[]);
   }catch (error) {
     console.error("Error fetching data:", error);

@@ -10,11 +10,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
+import {useRef, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import { CardList } from "../Statement/CardList.jsx";
-import { useFetchData } from "../../hooks/useFetchData.jsx";
+import {CardList} from "../Statement/CardList.jsx";
+import {useFetchData} from "../../hooks/useFetchData.jsx";
 
 // 모든 태그 예시 (역량 태그와 인성 태그 포함)
 const allTags = [
@@ -51,31 +51,26 @@ const allTags = [
   "커리어 계획",
 ];
 
-export const SearchComponent = ({ setOpenSearch }) => {
+export const SearchComponent = ({setOpenSearch}) => {
   const [searchText, setSearchText] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const cardRef = useRef(null);
   const [statement, setStatement] = useState([]);
   const [recruit, setRecruit] = useState([]);
-  console.log(selectedTags);
-  const { fetchData } = useFetchData();
+  const {fetchData} = useFetchData();
   const handleClear = () => {
     setSearchText("");
     setSelectedTags([]);
     setIsFocused(true); // Clear 후 포커스 가능하도록 설정
   };
 
-  console.log("recruit아왜",recruit)
   const searchData = async () => {
     try {
       const tags = encodeURIComponent(JSON.stringify(selectedTags));
       const response = await fetchData(`/Search/tag?tags=${tags}`);
-      console.log("searchResponse", response.data);
       setStatement(response.data.statement || []);
       setRecruit(response.data.recruit || []);
-      console.log("statement", response.data.statement);
-      console.log("recruit", response.data.recruit);
     } catch (error) {
       console.error(error);
     }
@@ -98,7 +93,6 @@ export const SearchComponent = ({ setOpenSearch }) => {
       await searchTextData();
     }
     setIsFocused(false);
-    console.log("검색:", searchText, selectedTags);
   };
 
   const handleKeyPress = (e) => {
@@ -121,7 +115,7 @@ export const SearchComponent = ({ setOpenSearch }) => {
     }
 
     if (!isTagSelected) {
-      setSelectedTags([...selectedTags, { tag, type }]);
+      setSelectedTags([...selectedTags, {tag, type}]);
     } else {
       handleRemove(tag);
     }
@@ -134,11 +128,6 @@ export const SearchComponent = ({ setOpenSearch }) => {
     setSelectedTags(updatedTags);
   };
 
-  const handleBlur = (event) => {
-    if (cardRef.current && !cardRef.current.contains(event.relatedTarget)) {
-      setIsFocused(false);
-    }
-  };
 
   return (
     <Box
@@ -199,7 +188,7 @@ export const SearchComponent = ({ setOpenSearch }) => {
             startAdornment: (
               <>
                 <InputAdornment position="start">
-                  <SearchIcon />
+                  <SearchIcon/>
                 </InputAdornment>
                 {selectedTags.map((item, index) => (
                   <Chip
@@ -227,7 +216,7 @@ export const SearchComponent = ({ setOpenSearch }) => {
                       marginRight: "10px",
                     }}
                   >
-                    <ClearIcon />
+                    <ClearIcon/>
                   </IconButton>
                 ) : null}
                 <Button
@@ -279,13 +268,13 @@ export const SearchComponent = ({ setOpenSearch }) => {
               },
             }}
           >
-            <Box sx={{ paddingBottom: "10px" }}>
-              <Box sx={{ fontWeight: "400", marginBottom: "10px" }}>
+            <Box sx={{paddingBottom: "10px"}}>
+              <Box sx={{fontWeight: "400", marginBottom: "10px"}}>
                 태그 검색
               </Box>
               <Typography
                 color="textSecondary"
-                style={{ fontSize: "14px", marginBottom: "10px" }}
+                style={{fontSize: "14px", marginBottom: "10px"}}
               >
                 역량 태그
               </Typography>
@@ -359,7 +348,7 @@ export const SearchComponent = ({ setOpenSearch }) => {
           },
         }}
       >
-        <Box sx={{ marginTop: "20px" }}>
+        <Box sx={{marginTop: "20px"}}>
           {statement.length === 0 && recruit.length === 0 ? (
             <>검색 내용이 없습니다.</>
           ) : (
@@ -367,14 +356,14 @@ export const SearchComponent = ({ setOpenSearch }) => {
               {statement.length > 0 && (
                 <>
                   <div>내 자소서</div>
-                  <CardList cardList={statement} search={"search"} />
+                  <CardList cardList={statement} search={"search"}/>
                 </>
               )}
               {statement.length > 0 && recruit.length > 0 && (
-                <Divider sx={{ marginTop: "30px" }} />
+                <Divider sx={{marginTop: "30px"}}/>
               )}
               {recruit.length > 0 && (
-                <Box sx={{ marginTop: "20px" }}>
+                <Box sx={{marginTop: "20px"}}>
                   <div>내 공고</div>
                   <CardList cardList={recruit} search={"searchRecruit"} setOpenSearch={setOpenSearch}/>
                 </Box>

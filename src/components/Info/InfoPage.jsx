@@ -1,13 +1,13 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { Box, Card, CardContent, Snackbar, Alert } from "@mui/material";
-import { BaseComponent } from "../common/BaseComponent.jsx";
-import { PageContent } from "../common/PageContent.jsx";
-import { BasicInfo } from "./BasicInfo.jsx";
-import { MilitaryInfo } from "./MilitaryInfo.jsx";
-import { ClubInfo } from "./ClubInfo.jsx";
-import { AcademicInfo } from "./AcademicInfo.jsx";
-import { AwardsInfo } from "./AwardsInfo.jsx";
-import { useFetchData } from "../../hooks/useFetchData.jsx";
+import {createContext, useContext, useEffect, useState} from "react";
+import {Alert, Box, Card, CardContent, Snackbar} from "@mui/material";
+import {BaseComponent} from "../common/BaseComponent.jsx";
+import {PageContent} from "../common/PageContent.jsx";
+import {BasicInfo} from "./BasicInfo.jsx";
+import {MilitaryInfo} from "./MilitaryInfo.jsx";
+import {ClubInfo} from "./ClubInfo.jsx";
+import {AcademicInfo} from "./AcademicInfo.jsx";
+import {AwardsInfo} from "./AwardsInfo.jsx";
+import {useFetchData} from "../../hooks/useFetchData.jsx";
 
 // Alert Context 생성
 export const AlertContext = createContext();
@@ -21,10 +21,10 @@ export const useAlert = () => {
   return context;
 };
 
-const InfoCard = ({ title, children }) => (
-  <Card style={{ marginBottom: "16px" }}>
+const InfoCard = ({children}) => (
+  <Card style={{marginBottom: "16px"}}>
     <CardContent>
-      <div style={{ marginTop: "10px" }}>{children}</div>
+      <div style={{marginTop: "10px"}}>{children}</div>
     </CardContent>
   </Card>
 );
@@ -36,7 +36,7 @@ export const InfoPage = () => {
     message: "",
     severity: "success",
   });
-  const { fetchData } = useFetchData();
+  const {fetchData} = useFetchData();
   const showAlert = (message, severity = "success") => {
     setAlert({
       open: true,
@@ -46,7 +46,7 @@ export const InfoPage = () => {
   };
 
   const handleCloseAlert = () => {
-    setAlert({ ...alert, open: false });
+    setAlert({...alert, open: false});
   };
 
   const [data, setData] = useState(null);
@@ -57,7 +57,6 @@ export const InfoPage = () => {
       setLoading(true);
       const response = await fetchData("/UserInfo");
       setData(response.data);
-      console.log("UserInfo", response.data);
     } catch (error) {
       console.error("Error fetching user info:", error);
     } finally {
@@ -73,7 +72,7 @@ export const InfoPage = () => {
     return (
       <BaseComponent>
         <PageContent>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
             Loading...
           </Box>
         </PageContent>
@@ -82,7 +81,7 @@ export const InfoPage = () => {
   }
 
   return (
-    <AlertContext.Provider value={{ showAlert }}>
+    <AlertContext.Provider value={{showAlert}}>
       <BaseComponent>
         <PageContent>
           <Box
@@ -95,23 +94,23 @@ export const InfoPage = () => {
             }}
           >
             <InfoCard>
-              <BasicInfo basicInfo={data?.basicInfo || {}} />
+              <BasicInfo basicInfo={data?.basicInfo || {}}/>
             </InfoCard>
 
             <InfoCard>
-              <MilitaryInfo militaryInfo={data?.militaryInfo || {}} />
+              <MilitaryInfo militaryInfo={data?.militaryInfo || {}}/>
             </InfoCard>
 
             <InfoCard title="수상">
-              <AwardsInfo awardInfo={data?.awardInfo || {}} />
+              <AwardsInfo awardInfo={data?.awardInfo || {}}/>
             </InfoCard>
 
             <InfoCard title="동아리/대외활동">
-              <ClubInfo clubInfo={data?.clubInfo || {}} />
+              <ClubInfo clubInfo={data?.clubInfo || {}}/>
             </InfoCard>
 
             <InfoCard title="학적사항">
-              <AcademicInfo academicInfo={data?.academicInfo || {}} />
+              <AcademicInfo academicInfo={data?.academicInfo || {}}/>
             </InfoCard>
           </Box>
         </PageContent>
@@ -121,9 +120,9 @@ export const InfoPage = () => {
         open={alert.open}
         autoHideDuration={6000}
         onClose={handleCloseAlert}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        anchorOrigin={{vertical: "bottom", horizontal: "right"}}
       >
-        <Alert severity={alert.severity} sx={{ width: "100%" }}>
+        <Alert severity={alert.severity} sx={{width: "100%"}}>
           {alert.message}
         </Alert>
       </Snackbar>

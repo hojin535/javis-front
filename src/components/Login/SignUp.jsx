@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useFetchData } from "../../hooks/useFetchData";
+import {useState} from "react";
+import {Box, Button, Container, TextField, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import {useFetchData} from "../../hooks/useFetchData";
 import Logo from "../../assets/LOGO.png";
 
 export default function SignUp() {
@@ -9,7 +9,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navi = useNavigate();
-  const { fetchData } = useFetchData();
+  const {fetchData} = useFetchData();
   const handleSubmit = (event) => {
     event.preventDefault();
     // 회원가입 처리 로직을 여기에 추가합니다.
@@ -21,8 +21,7 @@ export default function SignUp() {
     };
     const handleSignUp = async () => {
       try {
-        const res = await fetchData("/SignUp", "POST", signUpData);
-        console.log(res.data);
+        await fetchData("/SignUp", "POST", signUpData);
         alert("회원가입 성공");
         navi("/");
       } catch (error) {
@@ -31,7 +30,6 @@ export default function SignUp() {
       }
     };
     handleSignUp();
-    console.log({ name, email, password });
   };
 
   return (
@@ -41,7 +39,7 @@ export default function SignUp() {
         sx={{
           position: "relative",
           right: 0,
-          mt:2,ml:2,
+          mt: 2, ml: 2,
           color: "white", // 텍스트 색상
           background: "black",
           "&:hover": {
@@ -65,7 +63,7 @@ export default function SignUp() {
             src={Logo}
             width={50}
             height={50}
-            style={{ borderRadius: 25 }}
+            style={{borderRadius: 25}}
             alt="로고"
           />
           <Typography component="h1" variant="h5">
@@ -75,7 +73,7 @@ export default function SignUp() {
             component="form"
             onSubmit={handleSubmit}
             noValidate
-            sx={{ mt: 1 }}
+            sx={{mt: 1}}
           >
             <TextField
               margin="normal"
@@ -119,7 +117,7 @@ export default function SignUp() {
               sx={{
                 position: "relative",
                 right: 0,
-                mt:2,mb:3,
+                mt: 2, mb: 3,
                 color: "white", // 텍스트 색상
                 background: "black",
                 "&:hover": {

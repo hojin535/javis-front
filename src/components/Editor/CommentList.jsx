@@ -12,8 +12,6 @@ export const CommentList = ({ setIsDrawerOpen }) => {
   const [comments, setComments] = useState([]);
   const [value, setValue] = useState("");
   const { id } = useParams();
-  console.log("comments:", comments);
-  console.log("카드아이디", id);
   const handleUpdate = () => {
     setUpdate(!update);
   };
@@ -22,7 +20,6 @@ export const CommentList = ({ setIsDrawerOpen }) => {
     const getData = async () => {
       try {
         const response = await fetchData(`/Comment?cardId=${id}`);
-        console.log("comment", response.data);
         setComments(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
