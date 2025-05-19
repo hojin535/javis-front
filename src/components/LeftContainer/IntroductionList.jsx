@@ -1,25 +1,12 @@
-import {
-  Accordion,
-  AccordionSummary,
-  Box,
-  Card,
-  CardContent,
-  Divider,
-  styled,
-  Typography,
-} from "@mui/material";
+import {Accordion, AccordionSummary, Box, Card, CardContent, Divider, styled, Typography,} from "@mui/material";
 import FlipToFrontIcon from "@mui/icons-material/FlipToFront";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { memo, useState } from "react";
-import { IntroductionItem } from "./IntroductionItem.jsx";
-import { useNavigate } from "react-router-dom";
+import {useState} from "react";
+import {IntroductionItem} from "./IntroductionItem.jsx";
+import {useNavigate} from "react-router-dom";
 
-const IntroductionList = ({ item, index, handleUpdate, recruitId }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+const IntroductionList = ({item, index, handleUpdate, recruitId}) => {
   const [expanded, setExpanded] = useState(false);
-  const open = Boolean(anchorEl);
-  const [isModiTitle] = useState(!!item.isModified);
-  console.log(isModiTitle);
   const navi = useNavigate();
 
   const handleTitleClick = (e) => {
@@ -43,10 +30,11 @@ const IntroductionList = ({ item, index, handleUpdate, recruitId }) => {
   };
 
   const CustomCardContent = styled(CardContent)`
-    padding: 0 !important; /* 전체 패딩 제거 */
-    &.MuiCardContent-root {
-      padding-bottom: 0 !important; /* paddingBottom 제거 */
-    }
+      padding: 0 !important; /* 전체 패딩 제거 */
+
+      &.MuiCardContent-root {
+          padding-bottom: 0 !important; /* paddingBottom 제거 */
+      }
   `;
 
   return (
@@ -60,28 +48,28 @@ const IntroductionList = ({ item, index, handleUpdate, recruitId }) => {
         }}
       >
         <CustomCardContent className="side">
-          <Accordion 
+          <Accordion
             expanded={expanded}
             onChange={handleAccordionChange}
           >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+              expandIcon={<ExpandMoreIcon/>}
               aria-controls={`panel${index}-content`}
               id={`panel${index}-header`}
-              sx={{ flexDirection: "row-reverse" }}
+              sx={{flexDirection: "row-reverse"}}
               onClick={handleAccordionClick}
             >
-              <Typography variant="body1" sx={{ mr: 1 }}>
+              <Typography variant="body1" sx={{mr: 1}}>
                 📁
               </Typography>
               <Typography variant="body1">{item.title}</Typography>
               <FlipToFrontIcon
                 className="navigate-icon"
-                sx={{ ml: "auto", cursor: "pointer", fontSize: "20px" }}
+                sx={{ml: "auto", cursor: "pointer", fontSize: "20px"}}
                 onClick={handleTitleClick}
               />
             </AccordionSummary>
-            <Divider />
+            <Divider/>
             <IntroductionItem
               card={item.cards}
               handleUpdate={handleUpdate}

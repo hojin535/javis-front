@@ -5,7 +5,6 @@ import { mapMenuToQuery } from "../util/mapMenuToQuery.js";
 export const IntroductionItem = ({ card, handleUpdate, recruitId }) => {
   const navi = useNavigate();
 
-  console.log("왼쪽:", card);
   const handleMove = (id, type) => {
     navi(`/recruits-page/${recruitId}?menu=${mapMenuToQuery(type)}`);
     navi(`/statement/editor/${id}`);

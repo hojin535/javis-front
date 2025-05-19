@@ -14,17 +14,12 @@ const StatementAddCardBody = ({ mode }) => {
   const handleTypeChange = (event, newTags) => {
     setSelectedType(newTags);
   };
-  console.log(selectedTags);
   const handleTagChange = (event, newTags) => {
     setSelectedTags(newTags);
   };
 
   const { id } = useParams();
-  // console.log(id, "공고id");
-  console.log("mode", mode);
   const handleAddCard = async () => {
-    console.log("selectedTags", selectedTags);
-    console.log("type", selectedType[0].tag);
     try {
       const response = await fetchData("/Card","POST", {
         title: "제목없음",

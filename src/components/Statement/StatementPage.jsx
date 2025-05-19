@@ -21,12 +21,10 @@ export const MyStatementPage = () => {
   const fetchCard = async () => {
     const response = await fetchData(`/Card/All?mode=${mode}&type=${selectMenu}`);
     setCardList(response.data);
-    console.log("card data", response.data);
   };
   const fetchCount = async () => {
     const response = await fetchData(`/Card/count?mode=${mode}`);
     setMenus(response.data);
-    console.log("갯수", response.data);
   };
   useEffect(() => {
     fetchCount();

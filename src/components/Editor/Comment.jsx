@@ -1,39 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  IconButton,
-  Menu,
-  MenuItem,
-  styled,
-  TextField,
-} from "@mui/material";
+import {useRef, useState} from "react";
+import {Box, Button, Card, IconButton, Menu, MenuItem, styled, TextField,} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { KoreanDateTime } from "../util/KoreanDateTime.js";
-import { useFetchData } from "../../hooks/useFetchData.jsx";
-import { useRecoilValue } from "recoil";
-import { updateAtom } from "../../Recoil.jsx";
+import {KoreanDateTime} from "../util/KoreanDateTime.js";
+import {useFetchData} from "../../hooks/useFetchData.jsx";
 
 const CustomCard = styled(Card)`
-  min-height: 80px;
-  padding: 15px;
-  cursor: pointer;
-  border-radius: 20px;
+    min-height: 80px;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 20px;
 
-  &:hover {
-    outline: 2px solid black;
-  }
+    &:hover {
+        outline: 2px solid black;
+    }
 `;
 
-export const Comment = ({ text, date, id,handleUpdate }) => {
+export const Comment = ({text, date, id, handleUpdate}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [commentText, setCommentText] = useState(text);
   const iconButtonRef = useRef(null);
   const cardRef = useRef(null);
-  const {fetchData}=useFetchData();
-  console.log("댓글 id:", id);
+  const {fetchData} = useFetchData();
   const handleClick = (event) => {
     event.stopPropagation();
     setAnchorEl(iconButtonRef.current);
@@ -45,24 +33,22 @@ export const Comment = ({ text, date, id,handleUpdate }) => {
   };
 
 
-
   const handleEdit = () => {
     setIsEditing(true);
     setAnchorEl(null);
-    cardRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    cardRef.current.scrollIntoView({behavior: "smooth", block: "center"});
   };
 
   const updateData = async () => {
     try {
-      await fetchData(`/Comment/${id}`, 'PUT',{text:commentText});
+      await fetchData(`/Comment/${id}`, 'PUT', {text: commentText});
     } catch (error) {
       console.error(error);
     }
-    console.log(commentText);
   };
   const deleteData = async () => {
     try {
-      await fetchData(`/Comment/${id}`, 'DELETE');  
+      await fetchData(`/Comment/${id}`, 'DELETE');
       handleUpdate();
     } catch (error) {
       console.error(error);
@@ -74,7 +60,6 @@ export const Comment = ({ text, date, id,handleUpdate }) => {
   };
 
   const handleDelete = async () => {
-    console.log("삭제됨");
     await deleteData();
     setAnchorEl(null);
   };
@@ -84,7 +69,7 @@ export const Comment = ({ text, date, id,handleUpdate }) => {
   };
 
   return (
-    <CustomCard ref={cardRef} sx={{ position: "relative" }}>
+    <CustomCard ref={cardRef} sx={{position: "relative"}}>
       <IconButton
         ref={iconButtonRef}
         onClick={handleClick}
@@ -94,7 +79,7 @@ export const Comment = ({ text, date, id,handleUpdate }) => {
           right: 10,
         }}
       >
-        <MoreVertIcon />
+        <MoreVertIcon/>
       </IconButton>
 
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
@@ -102,7 +87,7 @@ export const Comment = ({ text, date, id,handleUpdate }) => {
         <MenuItem onClick={handleDelete}>🗑️ 삭제</MenuItem>
       </Menu>
 
-      <Box sx={{ fontSize: "12px", color: "gray", marginTop: "10px" }}>
+      <Box sx={{fontSize: "12px", color: "gray", marginTop: "10px"}}>
         {KoreanDateTime(date)}
       </Box>
 
@@ -137,7 +122,7 @@ export const Comment = ({ text, date, id,handleUpdate }) => {
       </Box>
 
       {isEditing && (
-        <Box sx={{ display: "flex", gap: 1, marginTop: 1 }}>
+        <Box sx={{display: "flex", gap: 1, marginTop: 1}}>
           <Button variant="contained" color="primary" onClick={handleSaveEdit}>
             저장
           </Button>
