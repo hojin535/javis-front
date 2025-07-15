@@ -21,10 +21,7 @@ export const updateAtom = atom({
   key: "update",
   default: false,
 });
-export const sideSelected = atom({
-  key: "sideSelected",
-  default: "statement",
-});
+
 export const sideSelectMenu = atom({
   key: "sideSelectMenu",
   default: "경험정리",

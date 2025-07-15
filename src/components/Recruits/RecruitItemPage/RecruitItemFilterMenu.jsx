@@ -4,7 +4,6 @@ import {SupportStatusSelector} from "./SupportStatusSelector.jsx";
 import {AutoResizeInput} from "./AutoResizeInput.jsx";
 import {UrlTooltipItem} from "./UrlTooltipItem.jsx";
 import LinkIcon from "@mui/icons-material/Link";
-import {RecruitDeadLineCalandar} from "./RecruitDeadLineCalandar.jsx";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
@@ -12,6 +11,7 @@ import dayjs from "dayjs";
 import {useRecoilValue} from "recoil";
 import {updateAtom} from "../../../Recoil.jsx";
 import {useFetchData} from "../../../hooks/useFetchData.jsx";
+import {RecruitDeadLineCalandar} from "./RecruitDeadLineCalandar.jsx";
 
 export const RecruitItemFilterMenu = () => {
   const {id} = useParams();
@@ -21,22 +21,31 @@ export const RecruitItemFilterMenu = () => {
   const [recruit, setRecruit] = useState([]);
   const [urlOpen, setUrlOpen] = useState(false);
   const tooltipRef = useRef(null);
-  const [deadline, setDeadline] = useState("");
+  // 1. 초기값을 "" 에서 null 로 변경
+  const [deadline, setDeadline] = useState(null);
   const navi = useNavigate();
   const update = useRecoilValue(updateAtom);
   const {fetchData} = useFetchData();
 
   useEffect(() => {
     const getRecruitData = async () => {
-      const response = await fetchData(`/Recruit/${id}`);
-      setRecruit(response.data);
-      setTitle(response.data.title);
-      setUrl(response.data.url);
-      setDeadline(dayjs(response.data.deadline));
-
+      try {
+        const response = await fetchData(`/Recruit/${id}`);
+        if (response && response.data) {
+          setRecruit(response.data);
+          setTitle(response.data.title);
+          setUrl(response.data.url);
+          // 2. API 응답 값이 있을 때만 dayjs 객체로 변환하도록 하여 안정성 강화
+          setDeadline(response.data.deadline ? dayjs(response.data.deadline) : null);
+        }
+      } catch (error) {
+        console.error("Failed to fetch recruit data:", error);
+      }
     };
     getRecruitData();
-  }, [update]);
+    // 3. useEffect 의존성 배열에 id와 fetchData 추가
+  }, [id, update, fetchData]);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget); // 메뉴를 열 때 기준점 설정
   };
@@ -74,7 +83,9 @@ export const RecruitItemFilterMenu = () => {
   };
   const updateDeadline = async (value) => {
     try {
-      await fetchData(`/Recruit/deadline/${id}`, "PUT", {deadline: value});
+      // value가 dayjs 객체일 수 있으므로, 서버가 원하는 포맷으로 변환 후 전송
+      const formattedDate = value ? value.format() : null;
+      await fetchData(`/Recruit/deadline/${id}`, "PUT", {deadline: formattedDate});
     } catch (error) {
       console.error(error);
     }
@@ -93,6 +104,7 @@ export const RecruitItemFilterMenu = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <>
       {/* 연도 및 분기 */}

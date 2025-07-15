@@ -40,7 +40,6 @@ export function RecruitItemPage() {
   return (
     <BaseComponent>
       <RecruitItemFilterMenu/>
-
       <PageContent>
         <StatementFilterMenu
           modalBody={<StatementAddCardBody mode={mode}/>}
