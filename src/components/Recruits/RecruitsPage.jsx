@@ -37,6 +37,7 @@ export const RecruitsPage = () => {
           ...item, // 기존 데이터 유지
           deadline: KoreanDateTime(deadline),
         };
+        ㅡ
       });
 
       setRecruits(transformedData); // 변환된 데이터로 상태 업데이트

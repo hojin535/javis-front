@@ -33,6 +33,16 @@ export default function LoginPage() {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      if (Email && password) {
+        handleSubmit();
+      } else {
+        alert("이메일과 비밀번호를 입력해주세요.");
+      }
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -64,6 +74,7 @@ export default function LoginPage() {
             autoFocus
             value={Email}
             onChange={(e) => setEmail(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
           <TextField
             margin="normal"
@@ -75,6 +86,7 @@ export default function LoginPage() {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
           <Button
             type="submit"
@@ -83,7 +95,8 @@ export default function LoginPage() {
             sx={{
               position: "relative",
               right: 0,
-              mt:2,mb:3,
+              mt: 2,
+              mb: 3,
               color: "white", // 텍스트 색상
               background: "black",
               "&:hover": {

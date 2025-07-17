@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import { TextField } from "@mui/material";
+import React, {useEffect, useRef, useState} from "react";
+import {TextField} from "@mui/material";
 
-export const AutoResizeInput = ({ value, onChange, color, ...props }) => {
+export const AutoResizeInput = ({value, onChange, color, ...props}) => {
   const [inputWidth, setInputWidth] = useState(0);
   const inputRef = useRef(null);
 
@@ -52,7 +52,7 @@ export const AutoResizeInput = ({ value, onChange, color, ...props }) => {
         },
         "& .MuiInputBase-input": {
           color: color,
-          fontSize: "20px", // 텍스트 크기
+          fontSize: "18px", // 텍스트 크기
           fontWeight: "bold", // 텍스트 굵기
           padding: "10px",
           width: `${inputWidth}px`, // 동적으로 계산된 width 적용

@@ -1,50 +1,50 @@
-import { useState } from "react";
-import { Box, IconButton, Menu, TextField } from "@mui/material";
+import {useState} from "react";
+import {Box, IconButton, Menu,} from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"; // dayjs 어댑터 사용
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {StaticDatePicker} from "@mui/x-date-pickers/StaticDatePicker";
 import dayjs from "dayjs";
+import "dayjs/locale/ko";
 
+dayjs.locale("ko"); // ✅ 한국어로 설정
 export const RecruitDeadLineCalandar = ({
-  selectedDate,
-  setSelectedDate,
-  updateDeadline,
-}) => {
-  const [anchorEl, setAnchorEl] = useState(null); // Control menu visibility
+                                          selectedDate,
+                                          setSelectedDate,
+                                          updateDeadline,
+                                        }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-  const today = dayjs(); // 오늘 날짜
   const handleClickOpen = (event) => {
-    setAnchorEl(event.currentTarget); // Open the menu anchored to the button
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
-    setAnchorEl(null); // Close the menu
+    setAnchorEl(null);
   };
 
   const handleDateChange = (date) => {
-    setSelectedDate(date); // Update selected date
-    handleClose();
+    setSelectedDate(date);
     updateDeadline(date);
+    handleClose();
   };
 
   return (
     <>
-      {/* Display selected date */}
-      <span style={{ marginRight: "8px" }}>
-        <span style={{ marginRight: "10px", fontWeight: "600" }}>마감일:</span>
+      {/* 날짜 텍스트 + 버튼 */}
+      <span style={{marginRight: "8px"}}>
+        <span style={{marginRight: "10px", fontWeight: "600"}}>마감일:</span>
         {selectedDate ? selectedDate.format("YYYY/MM/DD") : "없음"}
       </span>
-
-      {/* Icon button for opening the menu */}
       <IconButton onClick={handleClickOpen}>
-        <CalendarMonthIcon />
+        <CalendarMonthIcon/>
       </IconButton>
 
-      {/* Menu that appears below the button */}
+      {/* 메뉴 안에 고정 달력 넣기 */}
       <Menu
         anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
+        open={open}
         onClose={handleClose}
         anchorOrigin={{
           vertical: "bottom",
@@ -55,23 +55,12 @@ export const RecruitDeadLineCalandar = ({
           horizontal: "left",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "250px",
-            marginX: "10px",
-          }}
-        >
-          {/* DatePicker */}
+        <Box sx={{p: 1}}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              format="YYYY/MM/DD" // 연도/월/일 포맷
+            <StaticDatePicker
+              displayStaticWrapperAs="desktop"
               value={selectedDate}
-              minDate={today} // 오늘 이전 날짜 비활성화
               onChange={handleDateChange}
-              renderInput={(params) => <TextField {...params} fullWidth />}
             />
           </LocalizationProvider>
         </Box>

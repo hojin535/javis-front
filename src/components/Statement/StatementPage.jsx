@@ -12,14 +12,16 @@ export const MyStatementPage = () => {
   const [menus, setMenus] = useState([]);
   const [selectMenu, setSelectMenu] = useState("경험정리");
   const [update, setUpdate] = useState(true);
-  const {fetchData} = useFetchData();
+  const { fetchData } = useFetchData();
   const handleUpdate = () => {
     setUpdate(!update);
   };
   const mode = "statement";
 
   const fetchCard = async () => {
-    const response = await fetchData(`/Card/All?mode=${mode}&type=${selectMenu}`);
+    const response = await fetchData(
+      `/Card/All?mode=${mode}&type=${selectMenu}`
+    );
     setCardList(response.data);
   };
   const fetchCount = async () => {
