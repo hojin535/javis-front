@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { accessTokenAtom } from '../Recoil';
 import { client } from '../api';
@@ -8,7 +8,7 @@ export const useFetchData = () => {
   const [error, setError] = useState(null);
   const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
 
-  const fetchData = async (url, method = 'GET', data = {}) => {
+  const fetchData = useCallback(async (url, method = 'GET', data = {}) => {
     setLoading(true);
     setError(null);
     try {
@@ -48,7 +48,7 @@ export const useFetchData = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [accessToken, setAccessToken]);
 
   return { fetchData, loading, error };
 };

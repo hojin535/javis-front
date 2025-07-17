@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {BaseComponent} from "../../common/BaseComponent.jsx";
 import {PageContent} from "../../common/PageContent.jsx";
 import {StatementFilterMenu} from "../../Statement/StatementFilterMenu.jsx";
@@ -20,29 +20,33 @@ export function RecruitItemPage() {
     setUpdate(!update);
   };
   const {id} = useParams();
-  const mode = "recruit";
-  const fetchCount = async () => {
-    const response = await fetchData(`/Card/recruit/count/${id}?mode=${mode}`);
+
+  const fetchCount = useCallback(async () => {
+    const response = await fetchData(`/Card/recruit/count/${id}?mode=recruit`);
     setMenus(response.data);
-  };
-  const fetchRecruitCard = async () => {
+  }, [fetchData, id]);
+
+  const fetchRecruitCard = useCallback(async () => {
     const response = await fetchData(
-      `/Card/recruit/${id}?mode=${mode}&type=${selectMenu}`,
+      `/Card/recruit/${id}?mode=recruit&type=${selectMenu}`,
     );
     setCardList(response.data);
-  };
+  }, [fetchData, id, selectMenu]);
+
   useEffect(() => {
     fetchCount();
-    fetchRecruitCard();
-  }, [update, selectMenu]);
-  //cardList 부분
+  }, [update, fetchCount]);
 
+  useEffect(() => {
+    fetchRecruitCard();
+  }, [update, fetchRecruitCard]);
+  //cardList 부분
   return (
     <BaseComponent>
       <RecruitItemFilterMenu/>
       <PageContent>
         <StatementFilterMenu
-          modalBody={<StatementAddCardBody mode={mode}/>}
+          modalBody={<StatementAddCardBody mode={"recruit"}/>}
           menus={menus}
           selectMenu={selectMenu}
           setSelectMenu={setSelectMenu}
