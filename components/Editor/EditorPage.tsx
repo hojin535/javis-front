@@ -1,7 +1,7 @@
 "use client";
 
 import {Box, Button, Card, IconButton, TextField, Typography,} from "@mui/material";
-import QuillEditor from "./QuillEditor.tsx";
+import QuillEditor from "./QuillEditorWrapper.tsx";
 import {useEffect, useRef, useState} from "react";
 import {BaseComponent} from "@/components/common/BaseComponent.tsx";
 import ChatIcon from "@mui/icons-material/Chat";
