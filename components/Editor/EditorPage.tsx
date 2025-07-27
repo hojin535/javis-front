@@ -1,7 +1,7 @@
 "use client";
 
 import {Box, Button, Card, IconButton, TextField, Typography,} from "@mui/material";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {BaseComponent} from "@/components/common/BaseComponent.tsx";
 import ChatIcon from "@mui/icons-material/Chat";
 import {CommentList} from "./CommentList.tsx";
@@ -9,7 +9,9 @@ import {useAtom} from "jotai";
 import {updateAtom} from "@/app/Jotai.tsx";
 import {useFetchData} from "@/hooks/useFetchData.tsx";
 import {useParams} from "next/navigation";
+import type ReactQuill from 'react-quill-new';
 import QuillEditorWrapper from "@/components/Editor/QuillEditorWrapper";
+import {KoreanDateTime} from "@/utils/KoreanDateTime";
 
 export const EditorPage = () => {
   const [save, setSave] = useState("");
@@ -19,6 +21,7 @@ export const EditorPage = () => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [update,] = useAtom(updateAtom);
+  const quilRef = useRef<ReactQuill>(null);
   const {fetchData} = useFetchData();
   useEffect(() => {
     const getData = async () => {
@@ -95,7 +98,7 @@ export const EditorPage = () => {
                   gutterBottom
                   sx={{color: "gray"}}
                 >
-                  24년 9월 12일 08시 07분 | {save}
+                  {KoreanDateTime(new Date())} | {save}
                 </Typography>
               </Box>
               <Box sx={{display: "inline-flex", alignItems: "center"}}>
@@ -108,7 +111,7 @@ export const EditorPage = () => {
                     verticalAlign: "middle",
                   }}
                 >
-                  {textLength}자/5000자(공백 포함)
+                  {textLength}자(공백 포함)
                 </Typography>
               </Box>
             </Box>
