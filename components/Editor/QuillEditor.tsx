@@ -1,10 +1,10 @@
-import dynamic from "next/dynamic";
+// components/Editor/QuillEditor.tsx
+'use client';
 
-export const QuillEditor = dynamic(
-  async () => {
-    const {default: RQ} = await import("react-quill");
-    return ({forwardedRef, ...props}) => <RQ ref={forwardedRef} {...props} />;
-  },
-  {ssr: false}
-);
+import dynamic from 'next/dynamic';
+
+export const QuillEditor = dynamic(() => import('react-quill-new'), {
+  ssr: false, // ✅ 이게 중요
+  loading: () => <p>Loading editor...</p>,
+});
 

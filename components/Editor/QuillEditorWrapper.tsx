@@ -1,9 +1,9 @@
 "use client";
 import React, {ChangeEvent, FC, RefObject, useEffect, useState} from "react";
 import {Box} from "@mui/material";
-import type ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.bubble.css';
-import "./quillCustom.css";
+import type ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
+// import "./quillCustom.css";
 import {QuillEditor} from "@/components/Editor/QuillEditor";
 
 interface QuillEditorProps {
@@ -15,13 +15,13 @@ interface QuillEditorProps {
 }
 
 
-const QuilEditor: FC<QuillEditorProps> = ({
-                                            save,
-                                            setSave,
-                                            text,
-                                            setText,
-                                            forwardedRef,
-                                          }) => {
+const QuilEditorWrapper: FC<QuillEditorProps> = ({
+                                                   save,
+                                                   setSave,
+                                                   text,
+                                                   setText,
+                                                   forwardedRef,
+                                                 }) => {
   const [fontSize, setFontSize] = useState("16px"); // Default font size
 
   // Handles changes to the font size dropdown.
@@ -87,9 +87,9 @@ const QuilEditor: FC<QuillEditorProps> = ({
         ref={forwardedRef}
         value={text}
         onChange={handleChange}
-        modules={QuilEditor.modules}
-        formats={QuilEditor.formats}
-        theme={"bubble"}
+        // modules={QuilEditor.modules}
+        // formats={QuilEditor.formats}
+        theme="snow"
         placeholder="내용을 입력해주세요"
       />
     </Box>
@@ -98,7 +98,7 @@ const QuilEditor: FC<QuillEditorProps> = ({
 
 // Modules and formats for the Quill editor toolbar.
 // Defined as static properties on the component function to prevent recreation on re-renders.
-QuilEditor.modules = {
+QuilEditorWrapper.modules = {
   toolbar: [
     [{list: "ordered"}, {list: "bullet"}],
     ["bold", "italic", "underline"],
@@ -106,14 +106,13 @@ QuilEditor.modules = {
   ],
 };
 
-QuilEditor.formats = [
+QuilEditorWrapper.formats = [
   "list",
   "bullet",
   "bold",
   "italic",
   "underline",
-  "link",
   "align",
 ];
 
-export default QuilEditor;
+export default QuilEditorWrapper;

@@ -1,8 +1,7 @@
 "use client";
 
 import {Box, Button, Card, IconButton, TextField, Typography,} from "@mui/material";
-import QuillEditor from "./QuillEditorWrapper.tsx";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {BaseComponent} from "@/components/common/BaseComponent.tsx";
 import ChatIcon from "@mui/icons-material/Chat";
 import {CommentList} from "./CommentList.tsx";
@@ -10,8 +9,7 @@ import {useAtom} from "jotai";
 import {updateAtom} from "@/app/Jotai.tsx";
 import {useFetchData} from "@/hooks/useFetchData.tsx";
 import {useParams} from "next/navigation";
-
-import type ReactQuill from 'react-quill';
+import QuillEditorWrapper from "@/components/Editor/QuillEditorWrapper";
 
 export const EditorPage = () => {
   const [save, setSave] = useState("");
@@ -21,7 +19,6 @@ export const EditorPage = () => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [update,] = useAtom(updateAtom);
-  const quilRef = useRef<ReactQuill>(null);
   const {fetchData} = useFetchData();
   useEffect(() => {
     const getData = async () => {
@@ -137,7 +134,7 @@ export const EditorPage = () => {
             </Box>
 
             <Box>
-              <QuillEditor
+              <QuillEditorWrapper
                 forwardedRef={quilRef}
                 save={save}
                 setSave={setSave}
