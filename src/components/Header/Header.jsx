@@ -6,14 +6,16 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { loginAtom, userIdValue } from "../../Recoil.jsx";
-import Javis from "../../assets/Javis.png";
+import Javis from "../../assets/LOGO.png";
 import { Typography } from "@mui/material";
-
+import { SearchComponent } from "./SearchComponent.jsx";
+import SearchIcon from "@mui/icons-material/Search";
+import Modal from "@mui/material/Modal";
 const pages = [" 내정보", "내 자소서", "내 공고"];
 const url = ["info", "statement", "recruits-page"];
 export default function Header() {
   const navi = useNavigate();
-  const [userId,setUserId]=useRecoilState(userIdValue);
+  const [userId, setUserId] = useRecoilState(userIdValue);
   const [isLogin, setIsLogin] = useRecoilState(loginAtom);
   const [, setAnchorEl] = useState(null);
 
@@ -40,7 +42,8 @@ export default function Header() {
       setIsLogin(false);
     }
   }, [setIsLogin]);
-
+  //검색
+  const [openSearch, setOpenSearch] = useState(false);
   return (
     <Box sx={{ flexGrow: 1 }} style={{ zIndex: "100" }}>
       <AppBar
@@ -89,6 +92,12 @@ export default function Header() {
                 </Button>
               ))}
             </Box>
+            <Box sx={{ marginLeft: 1 }}>
+              <SearchIcon
+                onClick={() => setOpenSearch(true)}
+                sx={{ justifyContent: "center", alignItems: "center" }}
+              />
+            </Box>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: "flex" }}>
@@ -117,6 +126,31 @@ export default function Header() {
           )}
         </Toolbar>
       </AppBar>
+      <Modal
+        open={openSearch}
+        onClose={() => setOpenSearch(false)}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1500, // AppBar보다 위로
+        }}
+      >
+        <Box
+          sx={{
+            width: "60vw",
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            borderRadius: 4,
+            p: 2,
+            maxHeight: "90vh",
+            overflowY: "auto",
+          }}
+          onClick={(e) => e.stopPropagation()} // 모달 외부 클릭 닫힘 방지
+        >
+          <SearchComponent setOpenSearch={setOpenSearch} />
+        </Box>
+      </Modal>
     </Box>
   );
 }

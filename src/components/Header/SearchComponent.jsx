@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { CardList } from "../Statement/CardList.jsx";
@@ -58,7 +58,6 @@ export const SearchComponent = ({ setOpenSearch }) => {
   const cardRef = useRef(null);
   const [statement, setStatement] = useState([]);
   const [recruit, setRecruit] = useState([]);
-  console.log(selectedTags);
   const { fetchData } = useFetchData();
   const handleClear = () => {
     setSearchText("");
@@ -66,16 +65,12 @@ export const SearchComponent = ({ setOpenSearch }) => {
     setIsFocused(true); // Clear 후 포커스 가능하도록 설정
   };
 
-  console.log("recruit아왜",recruit)
   const searchData = async () => {
     try {
       const tags = encodeURIComponent(JSON.stringify(selectedTags));
       const response = await fetchData(`/Search/tag?tags=${tags}`);
-      console.log("searchResponse", response.data);
       setStatement(response.data.statement || []);
       setRecruit(response.data.recruit || []);
-      console.log("statement", response.data.statement);
-      console.log("recruit", response.data.recruit);
     } catch (error) {
       console.error(error);
     }
@@ -98,7 +93,6 @@ export const SearchComponent = ({ setOpenSearch }) => {
       await searchTextData();
     }
     setIsFocused(false);
-    console.log("검색:", searchText, selectedTags);
   };
 
   const handleKeyPress = (e) => {
@@ -111,7 +105,7 @@ export const SearchComponent = ({ setOpenSearch }) => {
     if (searchText) return;
 
     const isTagSelected = selectedTags.some(
-      (selectedTag) => selectedTag.tag === tag,
+      (selectedTag) => selectedTag.tag === tag
     );
 
     // 전체 태그 최대 3개 제한
@@ -129,51 +123,26 @@ export const SearchComponent = ({ setOpenSearch }) => {
 
   const handleRemove = (tag) => {
     const updatedTags = selectedTags.filter(
-      (selectedTag) => selectedTag.tag !== tag,
+      (selectedTag) => selectedTag.tag !== tag
     );
     setSelectedTags(updatedTags);
-  };
-
-  const handleBlur = (event) => {
-    if (cardRef.current && !cardRef.current.contains(event.relatedTarget)) {
-      setIsFocused(false);
-    }
   };
 
   return (
     <Box
       sx={{
-        width: "1200px",
-        minHeight: "400px",
+        width: "100%",
+        minHeight: "500px",
         maxHeight: "800px",
-        position: "relative",
-        padding: "0 10px",
-        marginTop: "10px",
+        borderRadius: "18px",
       }}
       onClick={() => setIsFocused(false)}
     >
-      {/* 검색 제목과 아이콘 */}
-      <Box
-        sx={{
-          display: "flex",
-          fontSize: "20px",
-          fontWeight: "700",
-          position: "sticky",
-          top: 0,
-          backgroundColor: "white",
-          zIndex: 1000,
-          paddingTop: "10px",
-        }}
-      >
-        검색
-      </Box>
-
       {/* TextField와 선택된 태그 표시 */}
       <Box
         sx={{
-          marginTop: "10px",
           position: "sticky",
-          top: "40px",
+          top: "5px",
           zIndex: 999,
           background: "white",
         }}
@@ -256,7 +225,7 @@ export const SearchComponent = ({ setOpenSearch }) => {
             onClick={(e) => e.stopPropagation()}
             sx={{
               position: "absolute",
-              top: "100px",
+              top: "64px",
               width: "calc(100% - 40px)",
               maxHeight: "250px",
               overflowY: "auto",
@@ -298,7 +267,7 @@ export const SearchComponent = ({ setOpenSearch }) => {
                       onClick={() => handleChipClick(tag, "competency")}
                       color={
                         selectedTags.some(
-                          (selectedTag) => selectedTag.tag === tag,
+                          (selectedTag) => selectedTag.tag === tag
                         )
                           ? "primary"
                           : "default"
@@ -326,7 +295,7 @@ export const SearchComponent = ({ setOpenSearch }) => {
                       onClick={() => handleChipClick(tag, "personality")}
                       color={
                         selectedTags.some(
-                          (selectedTag) => selectedTag.tag === tag,
+                          (selectedTag) => selectedTag.tag === tag
                         )
                           ? "secondary"
                           : "default"
@@ -376,7 +345,11 @@ export const SearchComponent = ({ setOpenSearch }) => {
               {recruit.length > 0 && (
                 <Box sx={{ marginTop: "20px" }}>
                   <div>내 공고</div>
-                  <CardList cardList={recruit} search={"searchRecruit"} setOpenSearch={setOpenSearch}/>
+                  <CardList
+                    cardList={recruit}
+                    search={"searchRecruit"}
+                    setOpenSearch={setOpenSearch}
+                  />
                 </Box>
               )}
             </>

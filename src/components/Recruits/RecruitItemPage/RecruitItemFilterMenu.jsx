@@ -1,43 +1,51 @@
-import { Box, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
-import { PeriodSelector } from "./PeriodSelector.jsx";
-import { SupportStatusSelector } from "./SupportStatusSelector.jsx";
-import { AutoResizeInput } from "./AutoResizeInput.jsx";
-import { UrlTooltipItem } from "./UrlTooltipItem.jsx";
-import LinkIcon from "@mui/icons-material/Link.js";
-import { RecruitDeadLineCalandar } from "./RecruitDeadLineCalandar.jsx";
-import MoreVertIcon from "@mui/icons-material/MoreVert.js";
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {Box, IconButton, Menu, MenuItem, Tooltip} from "@mui/material";
+import {PeriodSelector} from "./PeriodSelector.jsx";
+import {SupportStatusSelector} from "./SupportStatusSelector.jsx";
+import {AutoResizeInput} from "./AutoResizeInput.jsx";
+import {UrlTooltipItem} from "./UrlTooltipItem.jsx";
+import LinkIcon from "@mui/icons-material/Link";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {useEffect, useRef, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import dayjs from "dayjs";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { updateAtom } from "../../../Recoil.jsx";
-import { useFetchData } from "../../../hooks/useFetchData.jsx";
+import {useRecoilValue} from "recoil";
+import {updateAtom} from "../../../Recoil.jsx";
+import {useFetchData} from "../../../hooks/useFetchData.jsx";
+import {RecruitDeadLineCalandar} from "./RecruitDeadLineCalandar.jsx";
 
 export const RecruitItemFilterMenu = () => {
-  const { id } = useParams();
+  const {id} = useParams();
   const [anchorEl, setAnchorEl] = useState(null);
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [recruit, setRecruit] = useState([]);
   const [urlOpen, setUrlOpen] = useState(false);
   const tooltipRef = useRef(null);
-  const [deadline, setDeadline] = useState("");
+  // 1. 초기값을 "" 에서 null 로 변경
+  const [deadline, setDeadline] = useState(null);
   const navi = useNavigate();
-  const update= useRecoilValue(updateAtom);
-  const {fetchData}=useFetchData();
+  const update = useRecoilValue(updateAtom);
+  const {fetchData} = useFetchData();
 
   useEffect(() => {
     const getRecruitData = async () => {
+      try {
         const response = await fetchData(`/Recruit/${id}`);
-        console.log(response.data);
-        setRecruit(response.data);
-        setTitle(response.data.title);
-        setUrl(response.data.url);
-        setDeadline(dayjs(response.data.deadline));
-    
+        if (response && response.data) {
+          setRecruit(response.data);
+          setTitle(response.data.title);
+          setUrl(response.data.url);
+          // 2. API 응답 값이 있을 때만 dayjs 객체로 변환하도록 하여 안정성 강화
+          setDeadline(response.data.deadline ? dayjs(response.data.deadline) : null);
+        }
+      } catch (error) {
+        console.error("Failed to fetch recruit data:", error);
+      }
     };
     getRecruitData();
-  }, [update]);
+    // 3. useEffect 의존성 배열에 id와 fetchData 추가
+  }, [id, update, fetchData]);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget); // 메뉴를 열 때 기준점 설정
   };
@@ -48,13 +56,12 @@ export const RecruitItemFilterMenu = () => {
 
   const deleteRecruit = async () => {
     try {
-      await fetchData(`/Recruit/${id}`,"DELETE");
+      await fetchData(`/Recruit/${id}`, "DELETE");
     } catch (error) {
       console.error(error);
     }
   };
   const handleDelete = async () => {
-    console.log("삭제됨");
     await deleteRecruit();
     navi("/recruits-page");
     handleClose(); // 메뉴 닫기
@@ -62,22 +69,23 @@ export const RecruitItemFilterMenu = () => {
 
   const updateTitle = async (value) => {
     try {
-      await fetchData(`/Recruit/title/${id}`,"PUT", { title: value });
+      await fetchData(`/Recruit/title/${id}`, "PUT", {title: value});
     } catch (error) {
       console.error(error);
     }
   };
   const updateUrl = async (url) => {
     try {
-      await fetchData(`/Recruit/url/${id}`,"PUT", { url });
+      await fetchData(`/Recruit/url/${id}`, "PUT", {url});
     } catch (error) {
       console.error(error);
     }
   };
-  console.log("urlOpen", urlOpen);
   const updateDeadline = async (value) => {
     try {
-      await fetchData(`/Recruit/deadline/${id}`,"PUT", { deadline: value });
+      // value가 dayjs 객체일 수 있으므로, 서버가 원하는 포맷으로 변환 후 전송
+      const formattedDate = value ? value.format() : null;
+      await fetchData(`/Recruit/deadline/${id}`, "PUT", {deadline: formattedDate});
     } catch (error) {
       console.error(error);
     }
@@ -96,6 +104,7 @@ export const RecruitItemFilterMenu = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <>
       {/* 연도 및 분기 */}
@@ -108,10 +117,10 @@ export const RecruitItemFilterMenu = () => {
           justifyContent: "space-between", // 양쪽 끝으로 배치
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <PeriodSelector yearHalf={recruit.yearHalf} />
+        <Box sx={{display: "flex", alignItems: "center"}}>
+          <PeriodSelector yearHalf={recruit.yearHalf}/>
           {/* 지원 상태 */}
-          <SupportStatusSelector status={recruit.state} />
+          <SupportStatusSelector status={recruit.state}/>
           {/* 제목 */}
           <Box
             sx={{
@@ -144,9 +153,10 @@ export const RecruitItemFilterMenu = () => {
               arrow
             >
               <LinkIcon
-                sx={{ marginLeft: "8px", cursor: "pointer" }}
+                sx={{marginLeft: "8px", cursor: "pointer"}}
                 onMouseEnter={() => setUrlOpen(true)} // 마우스 호버로 열기
-                onMouseLeave={() => {}} // 마우스가 버튼을 떠나도 닫히지 않게
+                onMouseLeave={() => {
+                }} // 마우스가 버튼을 떠나도 닫히지 않게
                 onClick={() => {
                   const trimmedUrl = url.trim(); // 앞뒤 공백 제거
 
@@ -172,14 +182,14 @@ export const RecruitItemFilterMenu = () => {
         </Box>
 
         {/* RecruitDeadLineCalandar와 IconButton을 함께 배치 */}
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{display: "flex", alignItems: "center"}}>
           <RecruitDeadLineCalandar
             updateDeadline={updateDeadline}
             selectedDate={deadline}
             setSelectedDate={setDeadline}
           />
           <IconButton onClick={handleClick}>
-            <MoreVertIcon />
+            <MoreVertIcon/>
           </IconButton>
         </Box>
 

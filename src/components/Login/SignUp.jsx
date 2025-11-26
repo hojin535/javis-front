@@ -1,15 +1,8 @@
-import { useState } from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  TextField,
-  Typography,
-} from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useNavigate } from "react-router-dom";
-import { useFetchData } from "../../hooks/useFetchData";
+import {useState} from "react";
+import {Box, Button, Container, TextField, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import {useFetchData} from "../../hooks/useFetchData";
+import Logo from "../../assets/LOGO.png";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -28,8 +21,7 @@ export default function SignUp() {
     };
     const handleSignUp = async () => {
       try {
-        const res = await fetchData("/SignUp","POST", signUpData);
-        console.log(res.data);
+        await fetchData("/SignUp", "POST", signUpData);
         alert("회원가입 성공");
         navi("/");
       } catch (error) {
@@ -38,14 +30,22 @@ export default function SignUp() {
       }
     };
     handleSignUp();
-    console.log({ name, email, password });
   };
 
   return (
     <>
       <Button
-        variant="contained"
-        sx={{ marginTop: "10px", marginLeft: "10px" }}
+        variant="outlined"
+        sx={{
+          position: "relative",
+          right: 0,
+          mt: 2, ml: 2,
+          color: "white", // 텍스트 색상
+          background: "black",
+          "&:hover": {
+            backgroundColor: "gray", // 호버 시 연한 회색 배경
+          },
+        }}
         onClick={() => navi(-1)}
       >
         뒤로가기
@@ -59,25 +59,29 @@ export default function SignUp() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <img
+            src={Logo}
+            width={50}
+            height={50}
+            style={{borderRadius: 25}}
+            alt="로고"
+          />
           <Typography component="h1" variant="h5">
-            Sign Up
+            회원가입
           </Typography>
           <Box
             component="form"
             onSubmit={handleSubmit}
             noValidate
-            sx={{ mt: 1 }}
+            sx={{mt: 1}}
           >
             <TextField
               margin="normal"
               required
               fullWidth
               id="name"
-              label="Name"
-              name="name"
+              label="이름"
+              name="이름"
               autoComplete="name"
               autoFocus
               value={name}
@@ -87,9 +91,9 @@ export default function SignUp() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email"
-              name="email"
+              id="이메일"
+              label="이메일"
+              name="이메일"
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -98,8 +102,8 @@ export default function SignUp() {
               margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
+              name="비밀번호"
+              label="비밀번호"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -109,8 +113,17 @@ export default function SignUp() {
             <Button
               type="submit"
               fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              variant="outlined"
+              sx={{
+                position: "relative",
+                right: 0,
+                mt: 2, mb: 3,
+                color: "white", // 텍스트 색상
+                background: "black",
+                "&:hover": {
+                  backgroundColor: "gray", // 호버 시 연한 회색 배경
+                },
+              }}
             >
               회원가입
             </Button>

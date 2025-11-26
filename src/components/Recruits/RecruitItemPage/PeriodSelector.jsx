@@ -1,18 +1,18 @@
-import { Box, IconButton, Menu, MenuItem } from "@mui/material";
+import {Box, Menu, MenuItem} from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown.js";
 import CheckIcon from "@mui/icons-material/Check.js";
-import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { generatePeriods } from "../../../Recoil.jsx";
-import { useParams } from "react-router-dom";
-import { useFetchData } from "../../../hooks/useFetchData.jsx";
+import React, {useEffect, useState} from "react";
+import {useRecoilValue} from "recoil";
+import {generatePeriods} from "../../../Recoil.jsx";
+import {useParams} from "react-router-dom";
+import {useFetchData} from "../../../hooks/useFetchData.jsx";
 
-export const PeriodSelector = ({ yearHalf }) => {
+export const PeriodSelector = ({yearHalf}) => {
   const periods = useRecoilValue(generatePeriods); // useRecoilValue로 atom 값 가져오기
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedPeriod, setSelectedPeriod] = useState("");
-  const {fetchData}=useFetchData();
-  const { id } = useParams();
+  const {fetchData} = useFetchData();
+  const {id} = useParams();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget); // 클릭한 아이콘을 기준으로 메뉴 띄움
   };
@@ -48,7 +48,7 @@ export const PeriodSelector = ({ yearHalf }) => {
         sx={{
           fontSize: "12px",
           border: "1px solid #e0e0e0", // 얇은 테두리
-          padding: "5px 10px", // 상하 좌우 패딩 설정
+          padding: "5px 5px", // 상하 좌우 패딩 설정
           borderRadius: "5px", // 모서리 둥글게
           backgroundColor: "#f5f5f5", // 약간의 배경색 추가
           color: "#757575", // 텍스트 색상 (회색)
@@ -61,27 +61,14 @@ export const PeriodSelector = ({ yearHalf }) => {
             display: "inline-block",
           },
           "&: hover": {
-            padding: "0px 0px",
-            paddingLeft: "10px",
-            paddingRight: "5px",
+            backgroundColor: "#eeeeee",
           },
         }}
         onClick={handleClick}
       >
         {selectedPeriod}
-        {/* 아이콘을 클릭했을 때 메뉴를 열도록 설정 */}
-        <IconButton
-          onClick={handleClick}
-          sx={{
-            padding: "0",
-            marginLeft: "2px",
-            display: "none",
-            transition: "visibility 0.3s ease",
-          }}
-          className={"arrowIcon"}
-        >
-          <ArrowDropDownIcon className="arrowIcon" sx={{ fontSize: "12px" }} />
-        </IconButton>
+
+        <ArrowDropDownIcon className="arrowIcon" sx={{fontSize: "12px"}}/>
       </Box>
 
       {/* 드롭다운 메뉴 */}
@@ -117,7 +104,7 @@ export const PeriodSelector = ({ yearHalf }) => {
           >
             {period.label}
             {selectedPeriod === period.label && (
-              <CheckIcon sx={{ fontSize: "14px", marginLeft: "5px" }} /> // 선택된 항목에 체크 표시
+              <CheckIcon sx={{fontSize: "14px", marginLeft: "5px"}}/> // 선택된 항목에 체크 표시
             )}
           </MenuItem>
         ))}

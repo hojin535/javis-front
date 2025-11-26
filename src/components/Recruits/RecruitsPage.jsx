@@ -1,21 +1,21 @@
-import { PageTitle } from "../common/PageTitle.jsx";
-import { BaseComponent } from "../common/BaseComponent.jsx";
-import { PageContent } from "../common/PageContent.jsx";
-import { PeriodFilter } from "./PeriodFilter.jsx";
-import { Box } from "@mui/material";
-import { RecruitCard } from "./RecruitCard.jsx";
+import {PageTitle} from "../common/PageTitle.jsx";
+import {BaseComponent} from "../common/BaseComponent.jsx";
+import {PageContent} from "../common/PageContent.jsx";
+import {PeriodFilter} from "./PeriodFilter.jsx";
+import {Box} from "@mui/material";
+import {RecruitCard} from "./RecruitCard.jsx";
 import RecruitAddCardBody from "./RecruitAddCardBody.jsx";
-import { AddCardComponent } from "../common/Card/AddCardComponent.jsx";
-import { useEffect, useState } from "react";
-import { KoreanDateTime } from "../util/KoreanDateTime.js";
-import { useRecoilState } from "recoil";
-import { updateAtom } from "../../Recoil.jsx";
-import { useFetchData } from "../../hooks/useFetchData.jsx";
+import {AddCardComponent} from "../common/Card/AddCardComponent.jsx";
+import {useEffect, useState} from "react";
+import {KoreanDateTime} from "../util/KoreanDateTime.js";
+import {useRecoilState} from "recoil";
+import {updateAtom} from "../../Recoil.jsx";
+import {useFetchData} from "../../hooks/useFetchData.jsx";
 
 export const RecruitsPage = () => {
   const [show, setShow] = useState(false);
-  const [update, setUpdate] = useRecoilState(updateAtom);
-  const { fetchData } = useFetchData();
+  const [update,] = useRecoilState(updateAtom);
+  const {fetchData} = useFetchData();
   const handleClose = () => {
     setShow(false);
   };
@@ -37,9 +37,9 @@ export const RecruitsPage = () => {
           ...item, // 기존 데이터 유지
           deadline: KoreanDateTime(deadline),
         };
+        ㅡ
       });
 
-      console.log(transformedData);
       setRecruits(transformedData); // 변환된 데이터로 상태 업데이트
     } catch (error) {
       console.error("데이터 가져오기 오류:", error);
@@ -69,23 +69,23 @@ export const RecruitsPage = () => {
         >
           💼
         </div>
-        <PageTitle title={"내 공고"} variant={"h5"} />
+        <PageTitle title={"내 공고"} variant={"h5"}/>
       </Box>
 
       <PageContent>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <PeriodFilter />
-          <Box sx={{ marginLeft: "auto" }}>
+        <Box sx={{display: "flex", alignItems: "center"}}>
+          <PeriodFilter/>
+          <Box sx={{marginLeft: "auto"}}>
             <AddCardComponent
-              modalBody={<RecruitAddCardBody handleClose={handleClose} />}
+              modalBody={<RecruitAddCardBody handleClose={handleClose}/>}
               handleOpen={handleOpen}
               handleClose={handleClose}
               show={show}
             />
           </Box>
         </Box>
-        <Box sx={{ marginTop: "40px" }}>
-          {recruits.map((recruit, index) => {
+        <Box sx={{marginTop: "40px"}}>
+          {recruits.map((recruit) => {
             return (
               <RecruitCard
                 key={recruit.id}

@@ -1,42 +1,31 @@
-import {
-  Box,
-  Button,
-  Card,
-  IconButton,
-  TextField,
-  Typography,
-} from "@mui/material";
+import {Box, Button, Card, IconButton, TextField, Typography,} from "@mui/material";
 import QuillEditor from "./QuillEditor.jsx";
-import { useEffect, useRef, useState } from "react";
-import { BaseComponent } from "../common/BaseComponent.jsx";
+import {useEffect, useRef, useState} from "react";
+import {BaseComponent} from "../common/BaseComponent.jsx";
 import ChatIcon from "@mui/icons-material/Chat";
-import { CommentList } from "./CommentList.jsx";
-import { useParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { updateAtom } from "../../Recoil.jsx";
-import { useFetchData } from "../../hooks/useFetchData.jsx";
+import {CommentList} from "./CommentList.jsx";
+import {useParams} from "react-router-dom";
+import {useRecoilState} from "recoil";
+import {updateAtom} from "../../Recoil.jsx";
+import {useFetchData} from "../../hooks/useFetchData.jsx";
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 export const EditorPage = () => {
   const [save, setSave] = useState("");
   const [textLength, setTextLength] = useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
-  const { id } = useParams();
+  const {id} = useParams();
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [update, setUpdate] = useRecoilState(updateAtom);
+  const [update,] = useRecoilState(updateAtom);
   const quilRef = useRef();
-  const { fetchData } = useFetchData();
+  const {fetchData} = useFetchData();
   useEffect(() => {
     const getData = async () => {
       try {
         const response = await fetchData(`/Card?id=${id}`);
         setTitle(response.data.title);
         setText(response.data.text);
-        console.log(response.data);
       } catch (error) {
         alert(error);
       }
@@ -44,9 +33,9 @@ export const EditorPage = () => {
     getData();
   }, [update]);
 
-  const getData = async () => {
+  const putData = async () => {
     try {
-      await  fetchData(`/card/${id}`, "PUT",{ title, text })
+      await fetchData(`/card/${id}`, "PUT", {title, text})
     } catch (error) {
       alert(error);
       console.error(error);
@@ -54,19 +43,13 @@ export const EditorPage = () => {
   };
   useEffect(() => {
     const delayDebounceTimer = setTimeout(async () => {
-      console.log("디바운스 후 실행되는 작업:", text);
-
-      // 통신 코드 임시
-      console.log("통신 시작");
-      await getData();
+      await putData();
       setSave("저장완료");
-      console.log("통신 완료");
     }, 1000);
 
     // Quill 인스턴스에서 텍스트 길이 가져오기
     if (quilRef.current) {
       const editorInstance = quilRef.current.getEditor();
-      console.log("글자인가?", editorInstance.innerText);
       const length = editorInstance.getLength();
       setTextLength(length - 1);
     }
@@ -74,7 +57,6 @@ export const EditorPage = () => {
     return () => clearTimeout(delayDebounceTimer);
   }, [title, text]);
 
-  console.log(id);
   // Drawer를 여닫는 함수
   const toggleDrawer = () => {
     setIsDrawerOpen((prev) => !prev);
@@ -82,7 +64,7 @@ export const EditorPage = () => {
 
   return (
     <BaseComponent>
-      <Box sx={{ display: "flex", position: "relative" }}>
+      <Box sx={{display: "flex", position: "relative"}}>
         {/* Main Content */}
         <Box
           sx={{
@@ -107,16 +89,16 @@ export const EditorPage = () => {
                 mb: 2,
               }}
             >
-              <Box sx={{ display: "inline-flex", alignItems: "center" }}>
+              <Box sx={{display: "inline-flex", alignItems: "center"}}>
                 <Typography
                   variant="subtitle"
                   gutterBottom
-                  sx={{ color: "gray" }}
+                  sx={{color: "gray"}}
                 >
                   24년 9월 12일 08시 07분 | {save}
                 </Typography>
               </Box>
-              <Box sx={{ display: "inline-flex", alignItems: "center" }}>
+              <Box sx={{display: "inline-flex", alignItems: "center"}}>
                 <Typography
                   variant="subtitle"
                   gutterBottom
@@ -130,7 +112,7 @@ export const EditorPage = () => {
                 </Typography>
               </Box>
             </Box>
-            <Box sx={{ mb: 6 }}>
+            <Box sx={{mb: 6}}>
               <TextField
                 placeholder={"제목을 입력해주세요"}
                 variant="standard"
@@ -192,11 +174,11 @@ export const EditorPage = () => {
             boxShadow: 3,
           }}
         >
-          <ChatIcon />
+          <ChatIcon/>
         </IconButton>
 
         {/* 댓글 입력 창 - 오른쪽에 고정 */}
-        {isDrawerOpen && <CommentList setIsDrawerOpen={setIsDrawerOpen} />}
+        {isDrawerOpen && <CommentList setIsDrawerOpen={setIsDrawerOpen}/>}
       </Box>
     </BaseComponent>
   );

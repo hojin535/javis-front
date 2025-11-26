@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { generateSupportStatuses } from "../../../Recoil.jsx";
-import { Box, IconButton, Menu, MenuItem } from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {useRecoilValue} from "recoil";
+import {generateSupportStatuses} from "../../../Recoil.jsx";
+import {Box, Menu, MenuItem} from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown.js";
 import CheckIcon from "@mui/icons-material/Check.js";
-import { useParams } from "react-router-dom";
-import { useFetchData } from "../../../hooks/useFetchData.jsx";
+import {useParams} from "react-router-dom";
+import {useFetchData} from "../../../hooks/useFetchData.jsx";
 
-export const SupportStatusSelector = ({ status }) => {
+export const SupportStatusSelector = ({status}) => {
   const supportStatuses = useRecoilValue(generateSupportStatuses); // 지원 상태 리스트 가져오기
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedSupportStatus, setSelectedSupportStatus] = useState(status);
-  const { id } = useParams();
-  const {fetchData}=useFetchData();
+  const {id} = useParams();
+  const {fetchData} = useFetchData();
   useEffect(() => {
     setSelectedSupportStatus(status);
   }, [status]);
@@ -26,7 +26,7 @@ export const SupportStatusSelector = ({ status }) => {
 
   const updateStatus = async (status) => {
     try {
-      await fetchData(`/Recruit/state/${id}`,"PUT", { state: status });
+      await fetchData(`/Recruit/state/${id}`, "PUT", {state: status});
     } catch (error) {
       console.error(error);
     }
@@ -50,7 +50,7 @@ export const SupportStatusSelector = ({ status }) => {
         sx={{
           fontSize: "12px",
           border: "1px solid #e0e0e0", // 얇은 테두리
-          padding: "5px 10px", // 상하 좌우 패딩 설정
+          padding: "5px 5px", // 상하 좌우 패딩 설정
           borderRadius: "5px", // 모서리 둥글게
           backgroundColor: "#f5f5f5", // 약간의 배경색 추가
           color: "#757575", // 텍스트 색상 (회색)
@@ -62,8 +62,9 @@ export const SupportStatusSelector = ({ status }) => {
             display: "inline-block",
           },
           "&:hover": {
-            padding: "0px 0px",
-            paddingLeft: "10px",
+            backgroundColor: "#f0f0f0",
+            padding: "5px 0",
+            paddingLeft: "5px",
             paddingRight: "5px",
           },
         }}
@@ -71,17 +72,8 @@ export const SupportStatusSelector = ({ status }) => {
       >
         {selectedSupportStatus}
         {/* 아이콘을 클릭했을 때 메뉴를 열도록 설정 */}
-        <IconButton
-          sx={{
-            padding: "0",
-            marginLeft: "2px",
-            visibility: "visible",
-            transition: "visibility 0.3s ease",
-          }}
-          className="arrowIcon"
-        >
-          <ArrowDropDownIcon className="arrowIcon" sx={{ fontSize: "12px" }} />
-        </IconButton>
+
+        <ArrowDropDownIcon className="arrowIcon" sx={{fontSize: "12px"}}/>
       </Box>
 
       {/* 드롭다운 메뉴 */}
@@ -117,7 +109,7 @@ export const SupportStatusSelector = ({ status }) => {
           >
             {status} {/* status.label 대신 status 값 자체를 사용 */}
             {selectedSupportStatus === status && (
-              <CheckIcon sx={{ fontSize: "14px", marginLeft: "5px" }} /> // 선택된 항목에 체크 표시
+              <CheckIcon sx={{fontSize: "14px", marginLeft: "5px"}}/> // 선택된 항목에 체크 표시
             )}
           </MenuItem>
         ))}

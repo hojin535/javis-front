@@ -10,12 +10,10 @@ import { RecruitsPage } from "./components/Recruits/RecruitsPage.jsx";
 import { MyStatementPage } from "./components/Statement/StatementPage.jsx";
 import { EditorPage } from "./components/Editor/EditorPage.jsx";
 import { RecruitItemPage } from "./components/Recruits/RecruitItemPage/RecruitItemPage.jsx";
+import {PrivateRoute} from "./components/PrivateRoute.jsx";
 
-const user = localStorage.getItem("user");
 
 export default function App() {
-  console.log("user", user);
-  console.log("test");
   return (
     <RecoilRoot>
       <Router>
@@ -23,20 +21,20 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/main" element={<InfoPage />} />
+          <Route path="/main" element={<PrivateRoute><InfoPage /></PrivateRoute>} />
 
           {/*  /!* 내 정보 *!/*/}
-          <Route path={"/info"} element={<InfoPage />} />
+          <Route path={"/info"} element={<PrivateRoute><InfoPage /> </PrivateRoute>} />
 
           {/*  /!*내 자기소개서*!/*/}
-          <Route path={"/statement"} element={<MyStatementPage />} />
-          <Route path={"/statement/editor/:id"} element={<EditorPage />} />
+          <Route path={"/statement"} element={ <PrivateRoute><MyStatementPage /></PrivateRoute>} />
+          <Route path={"/statement/editor/:id"} element={<PrivateRoute><EditorPage /></PrivateRoute>} />
           {/*  /!*  내 공고*!/*/}
-          <Route path={"/recruits-page"} element={<RecruitsPage />} />
-          <Route path={"/recruits-page/:id"} element={<RecruitItemPage />} />
+          <Route path={"/recruits-page"} element={<PrivateRoute><RecruitsPage /></PrivateRoute>} />
+          <Route path={"/recruits-page/:id"} element={<PrivateRoute><RecruitItemPage /></PrivateRoute>} />
           <Route
             path={"/recruits-page/:id/editor/:item"}
-            element={<EditorPage />}
+            element={<PrivateRoute><EditorPage /></PrivateRoute>}
           />
         </Routes>
       </Router>
