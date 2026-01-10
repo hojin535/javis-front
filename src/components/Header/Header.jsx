@@ -77,9 +77,6 @@ export default function Header() {
                 width: "auto",
                 marginRight: "10px",
               }}
-              onClick={() => {
-                isLogin ? navi("/main") : navi("/");
-              }}
             />
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page, index) => (

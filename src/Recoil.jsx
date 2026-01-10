@@ -1,17 +1,18 @@
 import { atom } from "recoil";
+import { getCookie, hasCookie } from "./utils/cookie";
 
 export const accessTokenAtom = atom({
   key: "accessTokenAtom",
-  default: "",
+  default: getCookie("accessToken") || "",
 });
 
 export const loginAtom = atom({
   key: "loginAtom",
-  default: false,
+  default: hasCookie("user"), // Check if user exists in cookies
 });
 export const userIdValue = atom({
   key: "userIdValue",
-  default: localStorage.getItem("userIdValue"),
+  default: getCookie("user"),
 });
 export const isExpandValue = atom({
   key: "isExpandValue",
