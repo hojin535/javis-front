@@ -26,7 +26,7 @@ export default function LoginPage() {
       await login(Email, password);
       setIsLogin(true);
       localStorage.setItem("user", Email);
-      navi("/main");
+      navi("/info");
     } catch (error) {
       console.log(error);
       alert("로그인에 실패하였습니다.");
